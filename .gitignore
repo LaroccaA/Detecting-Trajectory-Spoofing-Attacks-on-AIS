@@ -1,0 +1,10 @@
+# Ambiente Virtuale Python
+/venv
+/env
+
+# File di cache e di compilazione
+__pycache__/
+*.pyc
+
+# Dati di output generati
+/output_data/
