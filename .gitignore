@@ -3,7 +3,7 @@
 /env
 
 #Dataset Pulito 
-/Progetto/Pre-Elaborazione Dati/Dataset_Cleaned_AIS
+/Progetto/Pre-Elaborazione Dati/Dataset_Pre-Cleaned_AIS
 
 # File di cache e di compilazione
 __pycache__/
