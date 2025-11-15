@@ -1,6 +1,7 @@
-//python -m venv venv
-//source venv/bin/activate  [Linux/Mac] oppure venv\Scripts\activate [Windows]
-//pip install -r set_venv.txt
+# python -m venv venv
+# source venv/bin/activate  [Linux/Mac] oppure venv\Scripts\activate [Windows]
+# pip install -r set_venv.txt
+
 absl-py==2.3.1
 asttokens==3.0.0
 astunparse==1.6.3
