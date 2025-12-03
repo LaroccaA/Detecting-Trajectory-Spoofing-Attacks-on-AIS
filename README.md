@@ -1,4 +1,4 @@
-# Rilevamento di Anomalie Cinetiche in Traiettorie Navali (AIS)
+# Detecting Trajectory Spoofing Attacks on AIS
 
 Questo progetto implementa e confronta due architetture avanzate di Autoencoder Ricorrenti per l'identificazione di comportamenti anomali (spoofing GPS, manovre impossibili, derive) nei dati di tracciamento marittimo (AIS).
 
