@@ -44,7 +44,7 @@ Il progetto è organizzato per funzionalità, con cartelle dedicate a ciascun mo
 | `Progetto/LNN_V2/Test.ipynb` | **Test Quantitativo & Qualitativo LNN:** Calibrazione delle soglie e validazione generale delle performance. |
 | `Progetto/LNN_V2/Test_Kinematic_Inconcistency.ipynb` | **Test Focalizzato:** Simulazione e analisi del rilevamento dell'attacco **Teletrasporto** (salto GPS impossibile). |
 | `Progetto/LNN_V2/Test_Silent_Drift.ipynb` | **Test Focalizzato:** Simulazione e analisi del rilevamento dell'attacco **Silent Drift** (deriva lenta e insidiosa). |
-| `Progetto/LSMT_V2/LSMT.ipynb` | **Training Principale:** Addestramento e configurazione avanzata dell'Autoencoder LNN. |
+| `Progetto/LSMT_V2/LSMT.ipynb` | **Training Principale:** Addestramento e configurazione avanzata dell'Autoencoder LSMT. |
 | `Progetto/LSMT_V2/Test.ipynb` | **Test Quantitativo & Qualitativo LNN:** Calibrazione delle soglie e validazione generale delle performance. |
 | `Progetto/LSMT_V2/Test_Kinematic_Inconcistency.ipynb` | **Test Focalizzato:** Simulazione e analisi del rilevamento dell'attacco **Teletrasporto** (salto GPS impossibile). |
 | `Progetto/LSMT_V2/Test_Silent_Drift.ipynb` | **Test Focalizzato:** Simulazione e analisi del rilevamento dell'attacco **Silent Drift** (deriva lenta e insidiosa). |
