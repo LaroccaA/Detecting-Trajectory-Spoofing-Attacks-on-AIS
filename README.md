@@ -19,18 +19,41 @@ Fornisce un'alternativa tradizionale e potente, basata su un'architettura che ge
 * **Wiring Sparso:** Utilizzo dell'architettura **AutoNCP** (Neural Circuit Policies) per una connettività neurale ispirata alla biologia, che ottimizza l'efficienza e la robustezza del modello.
 
 
+***
+
+## Classificazione degli Attacchi Testati
+
+Per validare la robustezza dei nostri modelli, la nostra metodologia si concentra sulla capacità di rilevare quattro distinte categorie di anomalie che violano la coerenza fisica e/o dinamica di una traiettoria navale.
+
+1. **Attacco Cinematico (GPS/Teleport)**: 
+
+   * **Incoerenza Creata**: Discontinuità istantanea della posizione (Salto GPS).
+   
+2. **Speed Spoofing:** 
+
+   * **Incoerenza Creata:** Iniezione di dati di velocità estremamente rumorosi o impossibili (es. accelerazione istantanea).
+   
+3. **Ghost Ship (Rotta Inversa):**
+
+   * **Incoerenza Creata:** La nave trasmette una velocità nominale, ma il vettore di rotta (COG) è falsificato ($180^\circ$ di errore).
+
+4. **Silent Drift:**
+
+   * **Incoerenza Creata:** La posizione devia lentamente e progressivamente (rampa lineare) mentre la velocità è nominale (simulando un trascinamento o un dirottamento stealth).
 
 ***
 
-## Metodologia di Rilevamento: Physics-Informed Dual-Threshold
+## Metodologia di Rilevamento: Statistical MAE Thresholding ($3\sigma$)
 
-Per classificare le anomalie in modo affidabile, il sistema utilizza un approccio a due giudici basato sulla navigazione reale:
+Il sistema di rilevamento degli errori è stato impostato sul calcolo e l'analisi del Mean Absolute Error (MAE) di ricostruzione, con la soglia di allarme definita statisticamente tramite la Regola dei $3\sigma$ sui dati normali.Questa scelta metodologica si basa sull'analisi della distribuzione degli errori generati dai modelli (LSTM e LNN) su traffico lecito. Il sistema di allarme si affida interamente a un confine statistico rigoroso:
 
-1.  **Ricostruzione Fisica (Dead Reckoning):** L'Autoencoder viene utilizzato per predire i parametri dinamici (SOG e COG). Questi sono poi reintrodotti in formule di navigazione per ricalcolare la posizione futura della nave.
-2.  **Score Dinamico:** Misura l'incoerenza del movimento (errore su SOG/COG).
-3.  **Score Fisico:** Misura l'incoerenza spaziale (la distanza tra la posizione GPS *reale* e la posizione *calcolata* fisicamente).
+   * **Definizione Statistica della Soglia:** Regola della Deviazione Standard ($\mathbf{3\sigma}$). La soglia viene calcolata prendendo come riferimento solo i dati normali, stabilendo un limite oltre il quale l'errore è considerato anomalo:$$Threshold = \mu_{normale} + 3\sigma_{normale}$$
 
-L'allarme scatta se **entrambe** le componenti dinamiche o fisiche superano la loro soglia specifica, calcolata statisticamente con la **Regola del 3-Sigma ($\mu + 3\sigma$)**.
+   * **Calcolo:** La soglia è definita come la Media ($\mu$) degli errori di ricostruzione sui dati normali, più tre volte la loro Deviazione Standard ($\sigma$).
+   
+   * **Funzionamento:** Questo approccio robusto garantisce che il limite sia posizionato in modo da coprire statisticamente il 99.7% dei comportamenti leciti, garantendo al contempo un bassissimo tasso di falsi positivi.
+
+   * Sistema di Allarme Binario: La classificazione è semplice e immediata:$$\text{Alert} = (\text{MAE} > \text{Threshold})$$
 
 ***
 
