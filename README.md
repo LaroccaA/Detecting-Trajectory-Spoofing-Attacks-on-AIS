@@ -42,6 +42,14 @@ Per validare la robustezza dei nostri modelli, la nostra metodologia si concentr
    * **Incoerenza Creata:** La posizione devia lentamente e progressivamente (rampa lineare) mentre la velocità è nominale (simulando un trascinamento o un dirottamento stealth).
 
 ***
+## Stress Test Multi-Vettoriale e Analisi Comparativa
+
+Abbiamo implementato un test massivo e comparativo, la cui funzione è quella di definire i limiti operativi delle reti ricorrenti rispetto a minacce complesse.
+
+1. **Metodo di Valutazione:** Viene condotto uno **stress test multi-vettoriale** iniettando simultaneamente quattro tipi di attacco **(Teleport, Speed Spoofing, Ghost Ship, Silent Drift)** in un ampio set di dati puliti.
+
+2. **Obiettivo Diagnostico:** L'analisi quantitativa (mostrata nel report finale) non mira solo a contare gli attacchi rilevati, ma soprattutto a identificare le vulnerabilità cinematiche specifiche della rete a tempo discreto (LSTM) – come la sua capacità di correlare la rotta (COG) con lo spostamento effettivo – per giustificare la superiorità e l'innovazione del modello LNN a tempo continuo.
+***
 
 ## Metodologia di Rilevamento: Statistical MAE Thresholding ($3\sigma$)
 
@@ -57,7 +65,7 @@ Il sistema di rilevamento degli errori è stato impostato sul calcolo e l'analis
 
 ***
 
-## 📁 Struttura del Repository
+## Struttura del Repository
 
 Il progetto è organizzato per funzionalità, con cartelle dedicate a ciascun modello e a ciascun tipo di test:
 
@@ -67,10 +75,12 @@ Il progetto è organizzato per funzionalità, con cartelle dedicate a ciascun mo
 | `Progetto/LNN_V2/Test.ipynb` | **Test Quantitativo & Qualitativo LNN:** Calibrazione delle soglie e validazione generale delle performance. |
 | `Progetto/LNN_V2/Test_Kinematic_Inconcistency.ipynb` | **Test Focalizzato:** Simulazione e analisi del rilevamento dell'attacco **Teletrasporto** (salto GPS impossibile). |
 | `Progetto/LNN_V2/Test_Silent_Drift.ipynb` | **Test Focalizzato:** Simulazione e analisi del rilevamento dell'attacco **Silent Drift** (deriva lenta e insidiosa). |
+| `Progetto/LNN_V2/Test_Attacks.ipynb` | **Stress Test:** implementa una pipeline di iniezione attiva degli attacchi per valutare la sensibilità della rete LNN a diverse tipologie di manipolazione cinematica. |
 | `Progetto/LSMT_V2/LSMT.ipynb` | **Training Principale:** Addestramento e configurazione avanzata dell'Autoencoder LSMT. |
 | `Progetto/LSMT_V2/Test.ipynb` | **Test Quantitativo & Qualitativo LSMT:** Calibrazione delle soglie e validazione generale delle performance. |
 | `Progetto/LSMT_V2/Test_Kinematic_Inconcistency.ipynb` | **Test Focalizzato:** Simulazione e analisi del rilevamento dell'attacco **Teletrasporto** (salto GPS impossibile). |
 | `Progetto/LSMT_V2/Test_Silent_Drift.ipynb` | **Test Focalizzato:** Simulazione e analisi del rilevamento dell'attacco **Silent Drift** (deriva lenta e insidiosa). |
+| `Progetto/LSMT_V2/Test_Attacks.ipynb` | **Stress Test:** Implementa una pipeline di iniezione attiva degli attacchi per valutare la sensibilità della rete a diverse tipologie di manipolazione cinematica. |
 | `Progetto/Pre-Elaborazione Dati/` | Contiene gli script di pulizia dati (es. `Pulizia Data AIS.ipynb`) e lo **`scaler.joblib`** per la normalizzazione. |
 
 ***
