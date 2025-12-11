@@ -48,7 +48,7 @@ Abbiamo implementato un test massivo e comparativo, la cui funzione è quella di
 
 1. **Metodo di Valutazione:** Viene condotto uno **stress test multi-vettoriale** iniettando simultaneamente quattro tipi di attacco **(Teleport, Speed Spoofing, Ghost Ship, Silent Drift)** in un ampio set di dati puliti.
 
-2. **Obiettivo Diagnostico:** L'analisi quantitativa (mostrata nel report finale) non mira solo a contare gli attacchi rilevati, ma soprattutto a identificare le vulnerabilità cinematiche specifiche della rete a tempo discreto (LSTM) – come la sua capacità di correlare la rotta (COG) con lo spostamento effettivo – per giustificare la superiorità e l'innovazione del modello LNN a tempo continuo.
+2. **Obiettivo Diagnostico:** L'analisi quantitativa (mostrata nel report finale) non mira solo a contare gli attacchi rilevati, ma soprattutto a identificare le vulnerabilità cinematiche specifiche della rete a tempo discreto (LSTM) per giustificare la superiorità e l'innovazione del modello LNN a tempo continuo.
 ***
 
 ## Metodologia di Rilevamento: Statistical MAE Thresholding ($3\sigma$)
@@ -73,16 +73,34 @@ Il progetto è organizzato per funzionalità, con cartelle dedicate a ciascun mo
 | :--- | :--- |
 | `Progetto/LNN_V2/LNN.ipynb` | **Training Principale:** Addestramento e configurazione avanzata dell'Autoencoder LNN. |
 | `Progetto/LNN_V2/Test.ipynb` | **Test Quantitativo & Qualitativo LNN:** Calibrazione delle soglie e validazione generale delle performance. |
-| `Progetto/LNN_V2/Test_Kinematic_Inconcistency.ipynb` | **Test Focalizzato:** Simulazione e analisi del rilevamento dell'attacco **Teletrasporto** (salto GPS impossibile). |
-| `Progetto/LNN_V2/Test_Silent_Drift.ipynb` | **Test Focalizzato:** Simulazione e analisi del rilevamento dell'attacco **Silent Drift** (deriva lenta e insidiosa). |
-| `Progetto/LNN_V2/Test_Attacks.ipynb` | **Stress Test:** implementa una pipeline di iniezione attiva degli attacchi per valutare la sensibilità della rete LNN a diverse tipologie di manipolazione cinematica. |
+| `Progetto/LNN_V2/Test_Fase_Preliminare/Test_Kinematic_Inconcistency.ipynb` | **Test Focalizzato:** Simulazione e analisi del rilevamento dell'attacco **Teletrasporto** (salto GPS impossibile). |
+| `Progetto/LNN_V2/Test_Fase_Preliminare/Test_Silent_Drift.ipynb` | **Test Focalizzato:** Simulazione e analisi del rilevamento dell'attacco **Silent Drift** (deriva lenta e insidiosa). |
+| `Progetto/LNN_V2/Final_Test_Attacks.ipynb` | **Stress Test:** implementa una pipeline di iniezione attiva degli attacchi per valutare la sensibilità della rete LNN a diverse tipologie di manipolazione cinematica. |
 | `Progetto/LSMT_V2/LSMT.ipynb` | **Training Principale:** Addestramento e configurazione avanzata dell'Autoencoder LSMT. |
 | `Progetto/LSMT_V2/Test.ipynb` | **Test Quantitativo & Qualitativo LSMT:** Calibrazione delle soglie e validazione generale delle performance. |
-| `Progetto/LSMT_V2/Test_Kinematic_Inconcistency.ipynb` | **Test Focalizzato:** Simulazione e analisi del rilevamento dell'attacco **Teletrasporto** (salto GPS impossibile). |
-| `Progetto/LSMT_V2/Test_Silent_Drift.ipynb` | **Test Focalizzato:** Simulazione e analisi del rilevamento dell'attacco **Silent Drift** (deriva lenta e insidiosa). |
-| `Progetto/LSMT_V2/Test_Attacks.ipynb` | **Stress Test:** Implementa una pipeline di iniezione attiva degli attacchi per valutare la sensibilità della rete a diverse tipologie di manipolazione cinematica. |
+| `Progetto/LSMT_V2/Test_Fase_Preliminare/Test_Kinematic_Inconcistency.ipynb` | **Test Focalizzato:** Simulazione e analisi del rilevamento dell'attacco **Teletrasporto** (salto GPS impossibile). |
+| `Progetto/LSMT_V2/Test_Fase_Preliminare/Test_Silent_Drift.ipynb` | **Test Focalizzato:** Simulazione e analisi del rilevamento dell'attacco **Silent Drift** (deriva lenta e insidiosa). |
+| `Progetto/LSMT_V2/Final_vTest_Attacks.ipynb` | **Stress Test:** Implementa una pipeline di iniezione attiva degli attacchi per valutare la sensibilità della rete a diverse tipologie di manipolazione cinematica. |
 | `Progetto/Pre-Elaborazione Dati/` | Contiene gli script di pulizia dati (es. `Pulizia Data AIS.ipynb`) e lo **`scaler.joblib`** per la normalizzazione. |
+| `set_venv.txt` | Consiste nel file di configurazione dell'ambiente virtuale python per poter eseguire il codice. |
+| `report_cybersecurity`| Report del progetto |
+| `Presentazione Cybersecurity`| Presentazione del progetto |
+
 
 ***
+
+## Performance di Rilevamento (Recall)
+Entrambi i modelli rilevano al 100% le anomalie macroscopiche (Speed Spoofing, Teleport) e progressive (Silent Drift).  
+La differenza cruciale emerge negli attacchi semantici più sottili:
+| Modello | Detection Rate (Ghost Ship) | Motivo |
+| :--- | :--- | :--- |
+| **LSTM** | ~59.43% | Varianza alta sui dati normali → Soglia alta ($\tau \approx 0.0276$) → Perde attacchi sottili. |
+| **LNN** | ~86.75% | Varianza bassa sui dati normali→ Soglia stretta ($\tau \approx 0.0239$) → Rileva l'anomalia.|
+
+Questo lavoro dimostra che le Liquid Neural Networks rappresentano un passo avanti rispetto alle LSTM per la cybersecurity marittima. Sebbene non "imparino" meglio l'attacco in sé, la loro superiore stabilità nel modellare la dinamica fisica continua permette di definire confini di sicurezza più stretti, riducendo i falsi negativi sugli attacchi più insidiosi
+  
+## Limite Intrinseco: "Cecità Spaziale"
+Un risultato fondamentale dello studio è che entrambi i modelli soffrono di "Cecità Spaziale". Apprendono perfettamente le leggi differenziali del moto (velocità, accelerazione), ma non hanno consapevolezza della geografia assoluta (es. non distinguono terra da mare).
+
 ## Conclusione
 Questo progetto funge da prova di concetto che le reti neurali liquide, abbinate a principi fisici, offrono una soluzione scalabile e altamente affidabile per la protezione dei sistemi di navigazione da attacchi cinetici.
